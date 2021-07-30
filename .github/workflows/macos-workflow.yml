@@ -45,6 +45,7 @@ jobs:
           docker image ls
       - name: Build jenkins Dockerfile
         run: |
+          ls -lai
           docker build -t jenkinsci:latest . --file dockerfiles/Dockerfile.plugins            
           docker image ls          
 
