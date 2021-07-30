@@ -5,20 +5,39 @@
   become: yes
   roles:
     - common
-    - jenkins   
+    - jenkins  
+    # - jenkins-casc
  
-- name: "deploy jenkins slave w ansible role"
+- name: "deploy ELK with filebeat"
   gather_facts: true
   hosts: vg-compute-11
   become: yes
   roles:
     - common
     - jenkins-slave  
+    - docker
+    - docker-init
+    - clean
+    - elasticsearch
+    - kibana
+    - logstash
+    - filebeat
+    - nginx  
+    - image-scanner  
 
-- name: "deploy jenkins slave w ansible role"
+
+- name: "deploy ELK with heartbeat"
   gather_facts: true
   hosts: vg-compute-12
   become: yes
   roles:
     - common
     - jenkins-slave  
+    - docker
+    - docker-init
+    - elasticsearch
+    - kibana
+    - logstash
+    - heartbeat
+    - nginx
+    - image-scanner  

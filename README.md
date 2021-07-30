@@ -136,11 +136,74 @@ Path to ansible executables directory /usr/bin
 Save
 ~~~~
 ~~~~
-Dashboard - New Item - Pipeline
+Jenkins Web Console
+http://192.168.20.18:8080/
+
+Dashboard - New Item - Freestyle project
 elk-ansible-pipeline
+
+General - Restrict where this project can be run - Label Expression
+vg-compute-11
+
+Source Code Management - Git
+Repository URL https://github.com/githubfoam/jenkins-elk-sandbox.git
+Branch Specifier (blank for 'any') */main
+
+Build Environment
+Delete workspace before build starts
+
+Build - Add build step - Invoke Ansible Playbook
+Playbook path provisioning/vg-compute-11.yml
+File or host list dev.inv
+
+Build Triggers - GitHub hook trigger for GITScm polling
+
+wWebhooks - Github Settings
+http://192.168.20.18:8080//github-webhook/
+Pull requests
+Pushes
 ~~~~
+
 ~~~~
 "Building on the controller node can be a security issue. You should set the number of executors on the controller to 0. "
 Manage - Number of executors=0
 
+~~~~
+
+~~~~
+SAST/DAST 
+
+Scanner for vulnerabilities in container images, file systems, and Git repositories, as well as for configuration issues
+https://github.com/aquasecurity/trivy
+Vulnerability Static Analysis for Containers 
+https://github.com/quay/clair
+
+ELK Beats
+
+Lightweight shipper for logs
+https://www.elastic.co/beats/filebeat
+Lightweight shipper for metrics
+https://www.elastic.co/beats/metricbeat
+Lightweight shipper for uptime monitorings
+https://www.elastic.co/beats/heartbeat
+Lightweight shipper for network data
+https://www.elastic.co/beats/packetbeat
+Lightweight shipper for Windows event logs
+https://www.elastic.co/beats/winlogbeat
+Lightweight shipper for audit data
+https://www.elastic.co/beats/auditbeat
+Serverless shipper for cloud data
+https://www.elastic.co/beats/functionbeat
+~~~~
+
+~~~~
+References
+
+https://github.com/githubfoam/jenkins-docker
+https://github.com/githubfoam/jenkins-sandbox
+https://github.com/githubfoam/docker-sandbox
+https://github.com/githubfoam/jenkins-ansible
+https://github.com/githubfoam/ELK-sandbox
+https://github.com/githubfoam/graylog-sandbox
+https://github.com/githubfoam/trivy-pipeline
 ~~~~
