@@ -36,9 +36,9 @@ jobs:
     - name: "Check docker version"
       run: docker version  
     - name: "Build jenkins Dockerfile"
-      run: sudo docker build -t jenkinsci:latest . --file dockerfiles/Dockerfile.plugins            
+      run: docker build -t jenkinsci:latest . --file dockerfiles/Dockerfile.plugins            
     - name: "List images"
-      run: sudo docker image ls 
+      run: docker image ls 
     - name: "Pull Jenkins from the public repo"
       run: docker pull jenkins/jenkins:lts-jdk11     
 
