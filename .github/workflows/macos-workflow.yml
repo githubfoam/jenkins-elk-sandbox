@@ -1,0 +1,88 @@
+name: "macos jenkins docker CI workflow"
+
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+      - cron:  '0 0 * * 0' #At 00:00 on Sunday every week
+
+jobs:
+
+
+  macos-latest:
+      name: "macos-latest 10.15.7"
+      runs-on: macos-latest
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: "brew update"
+        run: brew update      
+      # - name: "brew upgrade"
+      #   run: brew upgrade
+      - name: "check on brew version"
+        run: brew --version   #Homebrew 2.5.12   
+      - name: "brew cask list"
+        run:   brew list --cask #Warning: Calling brew cask list is deprecated! Use brew list [--cask] instead.
+      - name: "brew list --formula"
+        run: brew list --formula #List all the installed formulas
+      - name: "Get OS X System Version"
+        run: sw_vers       
+      - name: "Get Mac System Details with system_profiler"
+        run: system_profiler | more  
+      - name: "osfingerprinting"
+        run: uname -a                           
+      - name: Install docker # Taken from https://github.com/actions/virtual-environments/issues/1143#issuecomment-652264388
+        run: |
+          mkdir -p ~/.docker/machine/cache
+          curl -Lo ~/.docker/machine/cache/boot2docker.iso https://github.com/boot2docker/boot2docker/releases/download/v19.03.12/boot2docker.iso
+          brew install docker docker-machine
+          docker version
+
+  macos-110:
+      name: "macos-11.0"
+      runs-on: macos-11.0 # ProductVersion 11.0.1
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: "brew update"
+        run: brew update      
+      # - name: "brew upgrade"
+      #   run: brew upgrade
+      - name: "check on brew version"
+        run: brew --version   #Homebrew 2.5.12   
+      - name: "brew cask list"
+        run:   brew list --cask #Warning: Calling brew cask list is deprecated! Use brew list [--cask] instead.
+      - name: "brew list --formula"
+        run: brew list --formula #List all the installed formulas
+      - name: "Get OS X System Version"
+        run: sw_vers       
+      - name: "Get Mac System Details with system_profiler"
+        run: system_profiler | more  
+      - name: "osfingerprinting"
+        run: uname -a                           
+
+
+  macos-1015:
+      name: "macos-10.15"
+      runs-on: macos-10.15 # ProductVersion 10.15.7
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: "brew update"
+        run: brew update      
+      # - name: "brew upgrade"
+      #   run: brew upgrade
+      - name: "check on brew version"
+        run: brew --version   #Homebrew 2.5.12   
+      - name: "brew cask list"
+        run:   brew list --cask #Warning: Calling brew cask list is deprecated! Use brew list [--cask] instead.
+      - name: "brew list --formula"
+        run: brew list --formula #List all the installed formulas
+      - name: "Get OS X System Version"
+        run: sw_vers       
+      - name: "Get Mac System Details with system_profiler"
+        run: system_profiler | more  
+      - name: "osfingerprinting"
+        run: uname -a                           
+

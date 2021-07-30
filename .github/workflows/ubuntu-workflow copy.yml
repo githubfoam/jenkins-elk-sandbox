@@ -1,0 +1,97 @@
+name: "ubuntu jenkins docker CI workflow"
+
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+      - cron:  '0 0 * * 0' #At 00:00 on Sunday every week
+
+jobs:
+
+#https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Ubuntu
+  ubuntu-1604-nagios-docker-job:
+    name: "ubuntu-16.04 jenkins docker job"
+    runs-on: ubuntu-16.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status    
+    - name: "Check docker version"
+      run: docker version         
+    - name: "Build jenkins Dockerfile"
+      run: sudo docker build -t jenkinsci:latest . --file dockerfiles/Dockerfile.plugins            
+    - name: "List images"
+      run: sudo docker image ls 
+    - name: "Pull Jenkins from the public repo"
+      run: sudo docker pull jenkins/jenkins:lts-jdk11              
+    - name: "List images"
+      run: sudo docker image ls                       
+    # - name: "Run jenkins image"
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master jenkins/jenkins     
+    # - name: "Get initial password" # http://localhost:8080
+    #   run: sudo docker exec jenkins-master cat /var/jenkins_home/secrets/initialAdminPassword     
+    # - name: "Daemonizing jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d jenkins/jenkins 
+    # - name: "Memory settings jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d --env JAVA_OPTS="-Xmx8192m" jenkins/jenkins       
+    # - name: "Increase connection pool jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d --env JAVA_OPTS="-Xmx8192m" --env JENKINS_OPTS=" --handlerCountMax=300" jenkins/jenkins
+
+
+  ubuntu-1804-nagios-docker-job:
+    name: "ubuntu-18.04 jenkins docker job"
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status   
+    - name: "Check docker version"
+      run: docker version         
+    - name: "Build jenkins Dockerfile"
+      run: sudo docker build -t jenkinsci:latest . --file dockerfiles/Dockerfile.plugins            
+    - name: "List images"
+      run: sudo docker image ls       
+    - name: "Pull Jenkins from the public repo"
+      run: sudo docker pull jenkins/jenkins:lts-jdk11            
+    - name: "List images"
+      run: sudo docker image ls                       
+    # - name: "Run jenkins image"
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master jenkins/jenkins     
+    # - name: "Get initial password" # http://localhost:8080
+    #   run: sudo docker exec jenkins-master cat /var/jenkins_home/secrets/initialAdminPassword     
+    # - name: "Daemonizing jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d jenkins/jenkins 
+    # - name: "Memory settings jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d --env JAVA_OPTS="-Xmx8192m" jenkins/jenkins       
+    # - name: "Increase connection pool jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d --env JAVA_OPTS="-Xmx8192m" --env JENKINS_OPTS=" --handlerCountMax=300" jenkins/jenkins
+
+
+  ubuntu-2004-nagios-docker-job:
+    name: "ubuntu-20.04 jenkins docker job"
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status   
+    - name: "Check docker version"
+      run: docker version       
+    - name: "Build jenkins Dockerfile"
+      run: sudo docker build -t jenkinsci:latest . --file dockerfiles/Dockerfile.plugins            
+    - name: "List images"
+      run: sudo docker image ls       
+    - name: "Pull Jenkins from the public repo"
+      run: sudo docker pull jenkins/jenkins:lts-jdk11  
+    - name: "List images"
+      run: sudo docker image ls                       
+    # - name: "Run jenkins image"
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master jenkins/jenkins     
+    # - name: "Get initial password" # http://localhost:8080
+    #   run: sudo docker exec jenkins-master cat /var/jenkins_home/secrets/initialAdminPassword     
+    # - name: "Daemonizing jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d jenkins/jenkins 
+    # - name: "Memory settings jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d --env JAVA_OPTS="-Xmx8192m" jenkins/jenkins       
+    # - name: "Increase connection pool jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d --env JAVA_OPTS="-Xmx8192m" --env JENKINS_OPTS=" --handlerCountMax=300" jenkins/jenkins
