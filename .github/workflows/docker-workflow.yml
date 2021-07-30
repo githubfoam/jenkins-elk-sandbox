@@ -1,0 +1,244 @@
+name: "Ubuntu jenkins docker CI workflow"
+
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+      - cron:  '0 0 * * 0' #At 00:00 on Sunday every week
+
+jobs:
+
+#https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Ubuntu
+  ubuntu-1604-nagios-docker-job:
+    name: "ubuntu-16.04 jenkins docker job"
+    runs-on: ubuntu-16.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status    
+    - name: "Build jenkins Dockerfile"
+      run: sudo docker build -t jenkinsci:latest . --file dockerfiles/Dockerfile.plugins            
+    - name: "List images"
+      run: sudo docker image ls 
+    - name: "Pull Jenkins from the public repo"
+      run: sudo docker pull jenkins/jenkins:lts-jdk11              
+    - name: "List images"
+      run: sudo docker image ls                       
+    # - name: "Run jenkins image"
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master jenkins/jenkins     
+    # - name: "Get initial password" # http://localhost:8080
+    #   run: sudo docker exec jenkins-master cat /var/jenkins_home/secrets/initialAdminPassword     
+    # - name: "Daemonizing jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d jenkins/jenkins 
+    # - name: "Memory settings jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d --env JAVA_OPTS="-Xmx8192m" jenkins/jenkins       
+    # - name: "Increase connection pool jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d --env JAVA_OPTS="-Xmx8192m" --env JENKINS_OPTS=" --handlerCountMax=300" jenkins/jenkins
+
+
+  ubuntu-1804-nagios-docker-job:
+    name: "ubuntu-18.04 jenkins docker job"
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status   
+    - name: "Build jenkins Dockerfile"
+      run: sudo docker build -t jenkinsci:latest . --file dockerfiles/Dockerfile.plugins            
+    - name: "List images"
+      run: sudo docker image ls       
+    - name: "Pull Jenkins from the public repo"
+      run: sudo docker pull jenkins/jenkins:lts-jdk11            
+    - name: "List images"
+      run: sudo docker image ls                       
+    # - name: "Run jenkins image"
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master jenkins/jenkins     
+    # - name: "Get initial password" # http://localhost:8080
+    #   run: sudo docker exec jenkins-master cat /var/jenkins_home/secrets/initialAdminPassword     
+    # - name: "Daemonizing jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d jenkins/jenkins 
+    # - name: "Memory settings jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d --env JAVA_OPTS="-Xmx8192m" jenkins/jenkins       
+    # - name: "Increase connection pool jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d --env JAVA_OPTS="-Xmx8192m" --env JENKINS_OPTS=" --handlerCountMax=300" jenkins/jenkins
+
+
+  ubuntu-2004-nagios-docker-job:
+    name: "ubuntu-20.04 jenkins docker job"
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: "os fingerprinting"
+      run: hostnamectl status   
+    - name: "Check docker version"
+      run: docker version       
+    - name: "Build jenkins Dockerfile"
+      run: sudo docker build -t jenkinsci:latest . --file dockerfiles/Dockerfile.plugins            
+    - name: "List images"
+      run: sudo docker image ls       
+    - name: "Pull Jenkins from the public repo"
+      run: sudo docker pull jenkins/jenkins:lts-jdk11  
+    - name: "List images"
+      run: sudo docker image ls                       
+    # - name: "Run jenkins image"
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master jenkins/jenkins     
+    # - name: "Get initial password" # http://localhost:8080
+    #   run: sudo docker exec jenkins-master cat /var/jenkins_home/secrets/initialAdminPassword     
+    # - name: "Daemonizing jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d jenkins/jenkins 
+    # - name: "Memory settings jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d --env JAVA_OPTS="-Xmx8192m" jenkins/jenkins       
+    # - name: "Increase connection pool jenkins" 
+    #   run: sudo docker run -p 8080:8080 --name=jenkins-master -d --env JAVA_OPTS="-Xmx8192m" --env JENKINS_OPTS=" --handlerCountMax=300" jenkins/jenkins
+
+  macos-latest:
+      name: "macos-latest 10.15.7"
+      runs-on: macos-latest
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: "brew update"
+        run: brew update      
+      # - name: "brew upgrade"
+      #   run: brew upgrade
+      - name: "check on brew version"
+        run: brew --version   #Homebrew 2.5.12   
+      - name: "brew cask list"
+        run:   brew list --cask #Warning: Calling brew cask list is deprecated! Use brew list [--cask] instead.
+      - name: "brew list --formula"
+        run: brew list --formula #List all the installed formulas
+      - name: "Get OS X System Version"
+        run: sw_vers       
+      - name: "Get Mac System Details with system_profiler"
+        run: system_profiler | more  
+      - name: "osfingerprinting"
+        run: uname -a                           
+      - name: "Check docker version"
+        run: docker version  
+
+  macos-110:
+      name: "macos-11.0"
+      runs-on: macos-11.0 # ProductVersion 11.0.1
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: "brew update"
+        run: brew update      
+      # - name: "brew upgrade"
+      #   run: brew upgrade
+      - name: "check on brew version"
+        run: brew --version   #Homebrew 2.5.12   
+      - name: "brew cask list"
+        run:   brew list --cask #Warning: Calling brew cask list is deprecated! Use brew list [--cask] instead.
+      - name: "brew list --formula"
+        run: brew list --formula #List all the installed formulas
+      - name: "Get OS X System Version"
+        run: sw_vers       
+      - name: "Get Mac System Details with system_profiler"
+        run: system_profiler | more  
+      - name: "osfingerprinting"
+        run: uname -a                           
+      - name: "Check docker version"
+        run: docker version  
+
+  macos-1015:
+      name: "macos-10.15"
+      runs-on: macos-10.15 # ProductVersion 10.15.7
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: "brew update"
+        run: brew update      
+      # - name: "brew upgrade"
+      #   run: brew upgrade
+      - name: "check on brew version"
+        run: brew --version   #Homebrew 2.5.12   
+      - name: "brew cask list"
+        run:   brew list --cask #Warning: Calling brew cask list is deprecated! Use brew list [--cask] instead.
+      - name: "brew list --formula"
+        run: brew list --formula #List all the installed formulas
+      - name: "Get OS X System Version"
+        run: sw_vers       
+      - name: "Get Mac System Details with system_profiler"
+        run: system_profiler | more  
+      - name: "osfingerprinting"
+        run: uname -a                           
+      - name: "Check docker version"
+        run: docker version  
+
+
+  windows-latest:
+    name: "windows-latest Microsoft Windows Server 2019 Datacenter"  
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: "check if server is virtual"
+      run: Systeminfo | findstr /i model   
+    - name: "check the PROCESSOR_ARCHITECTURE environment variable.64-bit systems will say AMD64 and 32-bit systems should say x86"
+      run: wmic OS get OSArchitecture     
+    - name: "osfingerprinting"
+      run: systeminfo | more  
+    - name: "display all processes, executable path"
+      run: wmic process list full         
+    - name: "list of running services"
+      run: tasklist         
+    - name: "list of all processes along with their corresponding PID, and services that are tied to them"
+      run: tasklist /svc  
+    - name: "look for unusual services"
+      run: net start                       
+    - name: "query unusual services"
+      run: sc query  
+    - name: "Check docker version"
+      run: docker version  
+
+  windows-2019: 
+    name: "Microsoft Windows Server 2019 Datacenter"
+    runs-on: windows-2019
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: "check if server is virtual"
+      run: Systeminfo | findstr /i model   
+    - name: "check the PROCESSOR_ARCHITECTURE environment variable.64-bit systems will say AMD64 and 32-bit systems should say x86"
+      run: wmic OS get OSArchitecture     
+    - name: "osfingerprinting"
+      run: systeminfo | more  
+    - name: "display all processes, executable path"
+      run: wmic process list full         
+    - name: "list of running services"
+      run: tasklist         
+    - name: "list of all processes along with their corresponding PID, and services that are tied to them"
+      run: tasklist /svc  
+    - name: "look for unusual services"
+      run: net start                       
+    - name: "query unusual services"
+      run: sc query 
+    - name: "Check docker version"
+      run: docker version  
+
+  windows-2016:
+    name: "Microsoft Windows Server 2016 Datacenter"
+    runs-on: windows-2016
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: "check if server is virtual"
+      run: Systeminfo | findstr /i model   
+    - name: "check the PROCESSOR_ARCHITECTURE environment variable.64-bit systems will say AMD64 and 32-bit systems should say x86"
+      run: wmic OS get OSArchitecture     
+    - name: "osfingerprinting"
+      run: systeminfo | more  
+    - name: "display all processes, executable path"
+      run: wmic process list full         
+    - name: "list of running services"
+      run: tasklist         
+    - name: "list of all processes along with their corresponding PID, and services that are tied to them"
+      run: tasklist /svc  
+    - name: "look for unusual services"
+      run: net start                       
+    - name: "query unusual services"
+      run: sc query      
+    - name: "Check docker version"
+      run: docker version        
