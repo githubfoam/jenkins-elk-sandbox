@@ -38,7 +38,11 @@ jobs:
           mkdir -p ~/.docker/machine/cache
           curl -Lo ~/.docker/machine/cache/boot2docker.iso https://github.com/boot2docker/boot2docker/releases/download/v19.03.12/boot2docker.iso
           brew install docker docker-machine
+          brew services start docker-machine #service start
+          # /usr/local/opt/docker-machine/bin/docker-machine start default #manual start
           docker version
+          docker pull jenkins/jenkins:lts-jdk11
+          docker image ls
 
   macos-110:
       name: "macos-11.0"
