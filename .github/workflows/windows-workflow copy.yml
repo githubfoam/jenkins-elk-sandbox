@@ -40,10 +40,11 @@ jobs:
     #   run: docker build -t jenkinsci:latest . --file dockerfiles/Dockerfile.plugins            
     # - name: "List images"
     #   run: docker image ls 
-    - name: "Pull Jenkins from the public repo"
-      run: docker pull jenkins/jenkins:lts-jdk11     
-    - name: "List images"
-      run: docker image ls       
+    # image operating system "linux" cannot be used on this platform
+    # - name: "Pull Jenkins from the public repo"
+    #   run: docker pull jenkins/jenkins:lts-jdk11     
+    # - name: "List images"
+    #   run: docker image ls       
 
   windows-2019: 
     name: "Microsoft Windows Server 2019 Datacenter"

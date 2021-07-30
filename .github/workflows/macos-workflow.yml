@@ -33,7 +33,7 @@ jobs:
         run: system_profiler | more  
       - name: "osfingerprinting"
         run: uname -a                           
-      - name: Install docker # Taken from https://github.com/actions/virtual-environments/issues/1143#issuecomment-652264388
+      - name: Install docker & pull jenkins image# Taken from https://github.com/actions/virtual-environments/issues/1143#issuecomment-652264388
         run: |
           mkdir -p ~/.docker/machine/cache
           curl -Lo ~/.docker/machine/cache/boot2docker.iso https://github.com/boot2docker/boot2docker/releases/download/v19.03.12/boot2docker.iso
@@ -43,6 +43,10 @@ jobs:
           docker version
           docker pull jenkins/jenkins:lts-jdk11
           docker image ls
+      - name: Build jenkins Dockerfile
+        run: |
+          docker build -t jenkinsci:latest . --file dockerfiles/Dockerfile.plugins            
+          docker image ls          
 
   macos-110:
       name: "macos-11.0"
