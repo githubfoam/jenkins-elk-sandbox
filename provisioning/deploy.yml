@@ -1,0 +1,24 @@
+---
+- name: "deploy jenkins w ansible role"
+  gather_facts: true
+  hosts: vg-compute-10
+  become: yes
+  roles:
+    - common
+    - jenkins   
+ 
+- name: "deploy jenkins slave w ansible role"
+  gather_facts: true
+  hosts: vg-compute-11
+  become: yes
+  roles:
+    - common
+    - jenkins-slave  
+
+- name: "deploy jenkins slave w ansible role"
+  gather_facts: true
+  hosts: vg-compute-12
+  become: yes
+  roles:
+    - common
+    - jenkins-slave  

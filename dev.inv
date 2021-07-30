@@ -1,0 +1,8 @@
+[all:vars]
+#vg-compute-07 ansible_ssh_host=192.168.20.15 ansible_ssh_port=22 ansible_ssh_user=jenkins-slave1 ansible_ssh_private_key_file=.vagrant/machines/vg-compute-07/virtualbox/private_key become_method=su ansible_become_pass=jenkins ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+vg-compute-11 ansible_connection=ssh ansible_ssh_host=192.168.20.19 ansible_ssh_port=22 ansible_ssh_user=jenkins-slave1 
+vg-compute-12 ansible_connection=ssh ansible_ssh_host=192.168.20.20 ansible_ssh_port=22 ansible_ssh_user=jenkins-slave2 
+
+[webservers]
+vg-compute-11
+vg-compute-12

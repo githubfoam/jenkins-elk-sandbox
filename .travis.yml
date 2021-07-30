@@ -1,0 +1,35 @@
+---
+sudo: required
+notifications:
+  slack:
+    on_failure: always
+
+matrix:
+  fast_finish: true
+  include:  
+
+# https://www.jenkins.io/doc/book/installing/macos/
+    - name: "deploy jenkins w homebrew on macOS 10.15.7 osx xcode12.2"
+      os: osx
+      osx_image:
+        - xcode12.2 #macOS 10.15.7
+      addons:
+        homebrew:
+          packages:
+          - jenkins-lts #Long-term support (LTS)
+          - python
+          - git
+          update: true
+      language: java
+      before_install:
+        - pip3 install virtualenv
+        - virtualenv -p $(which python3) ~venvpy3
+        - source ~venvpy3/bin/activate
+        - python --version
+        - pip install -r requirements.txt
+      script:
+      - brew services start jenkins-lts
+      - brew services stop jenkins-lts
+      - sudo cat /var/lib/jenkins/secrets/initialAdminPassword 
+      after_success:
+        - deactivate

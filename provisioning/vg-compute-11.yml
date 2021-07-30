@@ -1,0 +1,21 @@
+---
+- name: "deploy jenkins localhost "
+  gather_facts: true
+  hosts: all   
+  become: yes
+  become_user: jenkins-slave1 #sudo: a password is required fix
+  # become_method: sudo
+  # roles:
+  #   - common
+    # - docker
+  tasks:
+  # - name: Ensure apache is at the latest version
+  #   ansible.builtin.yum:
+  #     name: httpd
+  #     state: latest    
+  - name: "OS fingerprinting "
+    debug:
+      msg:
+      - "First message"   
+
+# - include_tasks: prepare.yml

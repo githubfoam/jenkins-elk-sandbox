@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+
+    stages {
+        
+        stage('SCM Checkout') {
+            steps {
+                echo 'check out git repo'
+                git branch: 'dev', url: 'https://github.com/githubfoam/jenkins-sandbox'
+            }
+        }
+        
+        stage('Run Ansible Playbook') {
+            steps{
+                ansiblePlaybook credentialsId: '4b288511-8145-48f4-8890-28b0ac79f6ae', disableHostKeyChecking: true, installation: 'ansible', inventory: 'dev.inv', playbook: 'provisioning/vg-compute-11.yml',extras: '-vvv'
+            }
+            
+        }
+    }
+}
